@@ -4,5 +4,5 @@ public interface Player {
 
     public String getName();
 
-    public 
+    public PlayerChoice getMove();
 }

@@ -11,7 +11,8 @@ public class TerminalView implements GameView {
         PlayerChoice move = null;
         while (move == null) {
             try {
-                System.out.println("Please make a move player: " + player.getName())
+                logPlayerMoveStart(player);
+                move = getPlayerChoice(getInput());
             } catch (Exception e) {
                 System.out.println("Error: " + e.getMessage());
             }
@@ -19,16 +20,26 @@ public class TerminalView implements GameView {
         return move;
     }
 
+    public void logPlayerMoveStart(Player player) {
+        System.out.println("Please make a move player: " + player.getName());
+    }
+
+    public void logPlayerMove(Player player, PlayerChoice playerChoice) {
+        System.out.println("Player " + player.getName() + "made the move " + playerChoice);
+    }
+
     private String getInput() {
-        Scanner scanner = new Scanner(System.in);
         System.out.print("Enter your choice (Rock, Paper, or Scissor): ");
         String userInput = scanner.nextLine();
-        scanner.close();
         return userInput;
     }
 
     private PlayerChoice getPlayerChoice(String userInput) throws InvalidMoveException {
-        return PlayerChoice.valueOf(userInput);
+        try {
+            return PlayerChoice.valueOf(userInput);
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     private class InvalidMoveException extends Exception {
@@ -36,4 +47,10 @@ public class TerminalView implements GameView {
             super("This was an invalid move. Please try again.");
         }
     }
+
+    public void closeScanner() {
+        scanner.close();
+    }
+
+    private Scanner scanner = new Scanner(System.in);
 }
