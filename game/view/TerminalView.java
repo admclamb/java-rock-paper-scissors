@@ -25,7 +25,7 @@ public class TerminalView implements GameView {
     }
 
     public void logPlayerMove(Player player, PlayerChoice playerChoice) {
-        System.out.println("Player " + player.getName() + "made the move " + playerChoice);
+        System.out.println("Player " + player.getName() + " made the move " + playerChoice);
     }
 
     private String getInput() {
@@ -38,13 +38,14 @@ public class TerminalView implements GameView {
         try {
             return PlayerChoice.valueOf(userInput);
         } catch (Exception e) {
-            throw e;
+            System.out.println("E: " + e.getMessage());
+            throw new InvalidMoveException("This was an invalid move. Please try again.");
         }
     }
 
     private class InvalidMoveException extends Exception {
-        public InvalidMoveException() {
-            super("This was an invalid move. Please try again.");
+        public InvalidMoveException(String message) {
+            super(message);
         }
     }
 
